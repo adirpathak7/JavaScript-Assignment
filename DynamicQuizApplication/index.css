@@ -1,0 +1,14 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+#main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.questions{
+    font-size: large;
+}
