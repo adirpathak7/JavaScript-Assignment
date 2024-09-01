@@ -1,0 +1,156 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-field label {
+    margin-right: 10px;
+}
+
+#taskName {
+    margin-top: 10px;
+    border: none;
+    /* Removes all borders */
+    border-bottom: 2px solid #e0e0e0;
+    /* Adds a bottom border (underline) */
+    padding: 5px;
+    /* Adds some padding for a better look */
+    outline: none;
+    /* Removes the outline on focus */
+    width: 100%;
+    /* Makes the input full width within its container */
+    font-size: 16px;
+    /* Adjusts font size */
+    transition: border-color 0.3s;
+    /* Smooth transition for border color on focus */
+}
+
+#taskName:focus {
+    border-bottom-color: #252525;
+    /* Changes the underline color on focus */
+}
+
+#addTask {
+    padding: 5px 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #e0e0e0;
+}
+
+.task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.task-item {
+    background-color: aqua;
+    padding: 15px;
+    width: 150px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    /* Enable absolute positioning for child elements */
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.task-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: text;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: opacity 0.3s;
+    /* Smooth transition for visibility */
+}
+
+.delete-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+    /* Disable pointer events while hidden */
+}
+
+.status-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: black;
+    /* text-decoration: underline; */
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.check-box {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    transform: scale(1.2);
+    /* Scale checkbox for better visibility */
+}
+
+#allTask {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px;
+    background-color: #e0e0e0;
+    /* Light gray background for visibility */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* More pronounced shadow for depth */
+    margin-bottom: 20px;
+    /* Space below the task counter section */
+    max-width: 600px;
+    margin: 20px auto;
+    /* Center the element and add some vertical spacing */
+}
+
+
+
+.allP {
+    display: inline;
+    /* Keep text inline */
+    font-size: 18px;
+    margin-left: 5px;
+    color: #333;
+    margin: 20px;
+}

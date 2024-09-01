@@ -5,147 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic task Fields</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .task-field {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .task-field label {
-            margin-right: 10px;
-        }
-
-        #taskName {
-            margin-right: 10px;
-            padding: 5px;
-        }
-
-        #addtask {
-            padding: 5px 10px;
-        }
-
-        .task-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .task-item {
-            background-color: aqua;
-            padding: 15px;
-            width: 150px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-            /* Enable absolute positioning for child elements */
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        .task-text {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            cursor: text;
-        }
-
-        .delete-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-            transition: opacity 0.3s;
-            /* Smooth transition for visibility */
-        }
-
-        .delete-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
-            /* Disable pointer events while hidden */
-        }
-
-        .status-btn {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            color: black;
-            /* text-decoration: underline; */
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-size: 12px;
-        }
-
-        .check-box {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            transform: scale(1.2);
-            /* Scale checkbox for better visibility */
-        }
-    </style>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <h1>Task Management</h1>
+    <h1>Todo List</h1>
 
-    <div>
-        Total task <p id="myTask"></p>
-        Pending task <p id="myPendingTask"></p>
-        Completed task <p id="myCompletedTask"></p>
+    <div id="allTask">
+        <p class="allP" > Total Task = <span id="totalTask"></span></p>
+        <p class="allP" > Pending Task = <span id="totalPendingTask"></span></p>
+        <p class="allP" > Completed Task = <span id="totalCompletedTask"></span></p>
     </div>
     <form id="taskForm" class="task-field">
-        <label for="taskName">Task Name:</label>
-        <input type="text" id="taskName" name="taskName">
-        <button type="button" id="addtask">Add Task</button>
+        <!-- <label for="taskName">Task Name</label> -->
+        <input type="text" id="taskName" name="taskName" placeholder="Enter the task">
+        <button type="button" id="addTask">Add Task</button>
     </form>
 
     <div class="task-list" id="taskList">
         <!-- task items will be dynamically added here -->
     </div>
-
+    <!-- 
     <script>
-        let i = 0
-        let p = 0
-        let c = 0
-        document.getElementById('addtask').addEventListener('click', function () {
-            i++
-            console.log(i);
-            const myTask = document.getElementById('myTask').innerHTML = i
+        let totalTask = 0;
+        let pendingTask = 0;
+        let completedTask = 0;
+
+        document.getElementById('addTask').addEventListener('click', function () {
+
             // Get the value from the input field
             const taskName = document.getElementById('taskName').value;
 
             // Check if the input field is not empty
             if (taskName.trim() !== '') {
+                totalTask++;
+                pendingTask++;
+                updateCounters();
+
                 // Create a new task item
                 const taskItem = document.createElement('div');
                 taskItem.className = 'task-item';
@@ -165,58 +62,39 @@
                 const status = document.createElement('div');
                 status.className = 'status-btn';
                 status.textContent = 'Pending';
-                status.style.backgroundColor = 'yellow'
-                p++
-                const myPendingTask = document.getElementById('myPendingTask').innerHTML = p
+                status.style.backgroundColor = 'yellow';
+
                 // Create a checkbox
                 const checkBox = document.createElement('input');
                 checkBox.type = 'checkbox';
                 checkBox.className = 'check-box';
 
-                document.addEventListener('change', function () {
+                // Add event listener to the checkbox
+                checkBox.addEventListener('change', function () {
                     if (checkBox.checked) {
-                        status.textContent = 'Completed'
-                        status.style.backgroundColor = 'rgb(39, 176, 5)'
-                        c++
-                        const myCompletedTask = document.getElementById('myCompletedTask').innerHTML = p
+                        status.textContent = 'Completed';
+                        status.style.backgroundColor = 'rgb(39, 176, 5)';
+                        completedTask++;
+                        pendingTask--;
                     } else {
-                        status.textContent = 'Pending'
-                        status.style.backgroundColor = 'yellow'
-                        p++
-                        const myPendingTask = document.getElementById('myPendingTask').innerHTML = p
+                        status.textContent = 'Pending';
+                        status.style.backgroundColor = 'yellow';
+                        pendingTask++;
+                        completedTask--;
                     }
-                })
+                    updateCounters();
+                });
 
                 deleteBtn.addEventListener('click', function () {
                     // Remove the task item when the delete button is clicked
                     taskItem.remove();
-                });
-
-                // Function to hide delete button
-                function hideDeleteButton() {
-                    deleteBtn.classList.add('hidden');
-                }
-
-                // Function to show delete button
-                function showDeleteButton() {
-                    deleteBtn.classList.remove('hidden');
-                }
-
-                // Add event listener to hide delete button on focus
-                taskText.addEventListener('focus', hideDeleteButton);
-
-                // Add event listener to show delete button on blur
-                taskText.addEventListener('blur', function () {
-                    // Delay to ensure the user clicks outside the text area
-                    setTimeout(showDeleteButton, 100);
-                    if (taskText.textContent.trim() === '') {
-                        alert("Task can't be empty!");
-                        taskText.textContent = 'Empty Task!';
-                        taskText.style.border = '2px solid black';
-                        taskText.focus();
+                    totalTask--;
+                    if (checkBox.checked) {
+                        completedTask--;
                     } else {
-                        taskText.style.border = '';
+                        pendingTask--;
                     }
+                    updateCounters();
                 });
 
                 // Append the text, delete button, status, and checkbox to the task item
@@ -230,13 +108,45 @@
 
                 // Clear the input field
                 document.getElementById('taskName').value = '';
+
+                // Hide and show delete button based on text focus
+                taskText.addEventListener('focus', function () {
+                    deleteBtn.classList.add('hidden');
+                });
+
+                taskText.addEventListener('blur', function () {
+                    setTimeout(function () {
+                        deleteBtn.classList.remove('hidden');
+                    }, 100);
+                    if (taskText.textContent.trim() === '') {
+                        alert("Task can't be empty!");
+                        taskText.textContent = 'Empty Task!';
+                        taskText.style.border = '2px solid black';
+                        completedTask--
+                        updateCounters()
+                        taskText.focus();
+                    } else {
+                        taskText.style.border = '';
+                    }
+                });
             } else {
                 // Handle the case where the input is empty
                 alert('Please enter a task name.');
             }
+
+            function updateCounters() {
+                console.log("total task:- " + totalTask);
+                console.log("pending task:- " + pendingTask);
+                console.log("completed task:- " + completedTask);
+                console.log("------------------new task added------------------");
+
+                document.getElementById('totalTask').textContent = totalTask;
+                document.getElementById('totalPendingTask').textContent = pendingTask;
+                document.getElementById('totalCompletedTask').textContent = completedTask;
+            }
         });
 
-    </script>
+    </script> -->
 </body>
 
 </html>
