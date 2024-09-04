@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Function's</title>
+</head>
+
+<body>
+
+    <label for="randomNumbers">Click here to genrate random number between 1 to 100</label>
+    <button name="randomNumbers" onclick="randomNumber()">Random Number</button>
+
+    <br>
+    <label for="validEmail">Email Checker</label>
+    <input type="text" placeholder="Enter your email" id="email">
+    <button onclick="validEmail()">Check Email</button>
+    <p id="emailErrorMsg"></p>
+
+    <!-- <div class="myImgs" id="images">
+        <div class="img">
+            <img src="images/myImg1.jpg" alt="myImg1">
+        </div>
+        <div class="img">
+            <img src="images/myImg1.jpg" alt="myImg1">
+        </div>
+        <div class="img">
+            <img src="images/myImg1.jpg" alt="myImg1">
+        </div>
+    </div> -->
+
+    <br>
+
+    <label for="takeInput">Enter the Number</label>
+    <input type="text" id="input-number">
+    <button onclick="squareOfNumber()">Square</button>
+    <button onclick="squareRootOfNumber()">Square Root</button>
+    <button onclick="factorialOfNumber()">Factorial</button>
+
+    <br>
+
+    <select name="color" id="bg-color" onchange="changeColor()">
+        <option value="default">Select the Color</option>
+        <option value="Red">Red</option>
+        <option value="Green">Green</option>
+        <option value="Blue">Blue</option>
+    </select>
+
+    <br>
+
+    <h1 id="timer">00:00:00</h1>
+    <button id="startBtn">Start</button>
+    <button id="stopBtn">Stop</button>
+    <button id="resetBtn">Reset</button>
+
+    <br>
+
+    <label for="firstNumber">First Number</label>
+    <input type="text" id="firstNumber" placeholder="Enter the first number">
+
+    <label for="secondNumber">Second Number</label>
+    <input type="text" id="secondNumber" placeholder="Enter the second number">
+
+    <button onclick="calculator('addition')">Addition</button>
+    <button onclick="calculator('subtraction')">Subtraction</button>
+    <button onclick="calculator('multiplication')">Multiplication</button>
+    <button onclick="calculator('divison')">Divison</button>
+
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter the username">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter the password">
+
+    <button onclick="loginFun()">Login</button>
+</body>
+<script>
+    function randomNumber() {
+        const randomNum = Math.floor(Math.random() * 101)
+        alert(randomNum)
+    }
+
+    function validEmail() {
+        const email = document.getElementById('email').value
+        const validEmail = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/
+
+        if (!email.match(validEmail)) {
+            alert("Invalid email!")
+            document.getElementById('email').focus()
+        } else {
+            alert("Valid email")
+            document.getElementById('email').value = ''
+        }
+    }
+
+    function squareOfNumber() {
+        const inputSquareNumber = document.getElementById('input-number').value
+        if (inputSquareNumber === '' || isNaN(inputSquareNumber)) {
+            alert("Please enter the valid number!")
+            document.getElementById('input-number').focus()
+        } else {
+            const squareOfNumber = inputSquareNumber * inputSquareNumber
+            alert("The square of " + squareOfNumber + " is:- " + squareOfNumber)
+            document.getElementById('input-number').value = ''
+        }
+    }
+
+    function squareRootOfNumber() {
+        const inputSquareRootNumber = document.getElementById('input-number').value
+        if (inputSquareRootNumber === '' || isNaN(inputSquareRootNumber)) {
+            alert("Please enter the valid number!")
+            document.getElementById('input-number').focus()
+        } else {
+            const squareOfNumber = inputSquareRootNumber * inputSquareRootNumber
+            alert("The square root of" + inputSquareRootNumber + " is:- " + Math.sqrt(inputSquareRootNumber))
+            document.getElementById('input-number').value = ''
+        }
+    }
+
+    function factorialOfNumber() {
+        const factorialNumber = document.getElementById('input-number').value
+
+        function fact(num) {
+            if (num === 0 || num === 1) {
+                return 1
+            } else {
+                return num * fact(num - 1)
+            }
+        }
+
+        if (factorialNumber === '' || isNaN(factorialNumber)) {
+            alert("Please enter the number!")
+            document.getElementById('input-number').focus()
+        } else {
+            const funCall = fact(factorialNumber)
+            alert("The factorial of the" + factorialNumber + " is:- " + funCall)
+            document.getElementById('input-number').value = ''
+        }
+    }
+
+    function changeColor() {
+        const selectedColor = document.getElementById('bg-color').value
+        if (selectedColor === 'default') {
+            alert("Please choose the color!")
+            document.body.style.backgroundColor = ""
+            document.getElementById('bg-color').focus()
+        } else {
+            document.body.style.backgroundColor = selectedColor
+        }
+    }
+
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+    let timer;
+
+    function updateTimer() {
+        const timer = document.getElementById('timer');
+        // Format the time to always show two digits
+        const formattedTime =
+            (hours < 10 ? '0' : '') + hours + ':' +
+            (minutes < 10 ? '0' : '') + minutes + ':' +
+            (seconds < 10 ? '0' : '') + seconds;
+
+        timer.textContent = formattedTime;
+    }
+
+    function startTimer() {
+        timer = setInterval(() => {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            updateTimer();
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+        updateTimer();
+    }
+
+    // Attach event listeners to buttons
+    document.getElementById('startBtn').addEventListener('click', startTimer);
+    document.getElementById('stopBtn').addEventListener('click', stopTimer);
+    document.getElementById('resetBtn').addEventListener('click', resetTimer);
+
+
+    function calculator(params) {
+        const firstNumber = parseFloat(document.getElementById('firstNumber').value)
+        const secondNumber = parseFloat(document.getElementById('secondNumber').value)
+
+        let result
+
+        if (firstNumber === '' || isNaN(firstNumber) || secondNumber === '' || isNaN(secondNumber)) {
+            alert("Please enter valid number!")
+            document.getElementById('firstNumber').focus()
+            document.getElementById('firstNumber').value = ''
+            document.getElementById('secondNumber').value = ''
+        } else {
+            switch (params) {
+                case 'addition':
+                    result = firstNumber + secondNumber
+                    document.getElementById('firstNumber').value = ''
+                    document.getElementById('secondNumber').value = ''
+                    break
+                case 'subtraction':
+                    result = firstNumber - secondNumber
+                    document.getElementById('firstNumber').value = ''
+                    document.getElementById('secondNumber').value = ''
+                    break
+                case 'multiplication':
+                    result = firstNumber * secondNumber
+                    document.getElementById('firstNumber').value = ''
+                    document.getElementById('secondNumber').value = ''
+                    break
+                case 'divison':
+                    if (secondNumber === 0) {
+                        alert("Can't divide by zero!")
+                        document.getElementById('firstNumber').value = ''
+                        document.getElementById('secondNumber').value = ''
+                    } else {
+                        result = firstNumber / secondNumber
+                        document.getElementById('firstNumber').value = ''
+                        document.getElementById('secondNumber').value = ''
+                        break
+                    }
+                default:
+                    return "Invalid opration"
+                    break
+            }
+            alert("The result is:- " + result)
+        }
+    }
+
+
+    function loginFun() {
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+
+        if (!username) {
+            alert("Username can't be empty!")
+            document.getElementById('username').focus()
+        } else if (!password) {
+            alert("Password can't be empty!")
+            document.getElementById('password').focus()
+        } else {
+            if (username === 'admin' && password === 'password') {
+                alert("Login Successful")
+                document.getElementById('username').value = ''
+                document.getElementById('password').value = ''
+            } else {
+                alert("Login failed!")
+                document.getElementById('username').value = ''
+                document.getElementById('password').value = ''
+            }
+        }
+    }
+</script>
+
+</html>

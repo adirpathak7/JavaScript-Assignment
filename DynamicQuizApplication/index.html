@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -14,7 +14,7 @@
 
     <div id="main-div">
 
-        <div class="question" answer="JavaScript">
+        <div answer="JavaScript">
             <p>1. Which is the scripting language?</p>
             <label><input type="radio" name="question1" value="Java"> Java</label><br>
             <label><input type="radio" name="question1" value="JavaScript"> JavaScript</label><br>
@@ -23,7 +23,7 @@
             <div class="feedback"></div>
         </div>
 
-        <div class="question" answer="Python">
+        <div class="question" answer="Python" id="python">
             <p>2. Which is a popular programming language for data science?</p>
             <label><input type="radio" name="question2" value="JavaScript"> JavaScript</label><br>
             <label><input type="radio" name="question2" value="Python"> Python</label><br>
@@ -31,6 +31,51 @@
             <label><input type="radio" name="question2" value="CSS"> CSS</label>
             <div class="feedback"></div>
         </div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
+    <title>Quiz App</title>
+</head>
+
+<body>
+    <div class="quiz-container" id="quiz">
+        <div class="quiz-header">
+            <h2 id="question">Question text</h2>
+            <ul>
+                <li>
+                    <input type="radio" name="answer" id="a" class="answer">
+                    <label for="a" id="a_text">Question</label>
+                </li>
+
+                <li>
+                    <input type="radio" name="answer" id="b" class="answer">
+                    <label for="b" id="b_text">Question</label>
+                </li>
+
+                <li>
+                    <input type="radio" name="answer" id="c" class="answer">
+                    <label for="c" id="c_text">Question</label>
+                </li>
+
+                <li>
+                    <input type="radio" name="answer" id="d" class="answer">
+                    <label for="d" id="d_text">Question</label>
+                </li>
+            </ul>
+        </div>
+        <button id="submit">Submit</button>
     </div>
 </body>
 
