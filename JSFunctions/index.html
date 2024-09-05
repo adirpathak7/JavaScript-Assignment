@@ -7,6 +7,57 @@
     <title>JavaScript Function's</title>
 </head>
 
+<style>
+    #image-container {
+        width: full;
+    }
+
+    .gallerycontainer {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #slideshow {
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    button {
+        cursor: pointer;
+        margin: 5px;
+    }
+</style>
+
+
 <body>
 
     <label for="randomNumbers">Click here to genrate random number between 1 to 100</label>
@@ -18,25 +69,23 @@
     <button onclick="validEmail()">Check Email</button>
     <p id="emailErrorMsg"></p>
 
-    <!-- <div class="myImgs" id="images">
-        <div class="img">
-            <img src="images/myImg1.jpg" alt="myImg1">
-        </div>
-        <div class="img">
-            <img src="images/myImg1.jpg" alt="myImg1">
-        </div>
-        <div class="img">
-            <img src="images/myImg1.jpg" alt="myImg1">
-        </div>
-    </div> -->
-
     <br>
 
     <label for="takeInput">Enter the Number</label>
-    <input type="text" id="input-number">
+    <input type="text" id="input-number" placeholder="Enter the number"> <br>
     <button onclick="squareOfNumber()">Square</button>
     <button onclick="squareRootOfNumber()">Square Root</button>
     <button onclick="factorialOfNumber()">Factorial</button>
+
+    <br>
+
+    <div id="slideshow">
+        <img id="slideImage" src="images/1st-img.jpg" alt="Slideshow Image">
+    </div>
+    <div style="text-align: center;">
+        <button onclick="prevImage()">Previous</button>
+        <button onclick="nextImage()">Next</button>
+    </div>
 
     <br>
 
@@ -55,24 +104,42 @@
     <button id="resetBtn">Reset</button>
 
     <br>
+    <div id="image-container">
+        <div class="gallerycontainer">
+            <div class="imageitem" onclick="openModal(this)"><img src="images/1st-img.jpg" alt="image"></div>
+            <div class="imageitem" onclick="openModal(this)"><img src="images/2nd-img.jpg" alt="image"></div>
+            <div class="imageitem" onclick="openModal(this)"><img src="images/3rd-img.jpg" alt="image"></div>
+        </div>
+        <div id="modal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modal-image">
+        </div>
+    </div>
+
+    <br>
 
     <label for="firstNumber">First Number</label>
-    <input type="text" id="firstNumber" placeholder="Enter the first number">
+    <input type="text" id="firstNumber" placeholder="Enter the first number"> <br> <br>
 
     <label for="secondNumber">Second Number</label>
-    <input type="text" id="secondNumber" placeholder="Enter the second number">
+    <input type="text" id="secondNumber" placeholder="Enter the second number"> <br> <br>
 
     <button onclick="calculator('addition')">Addition</button>
     <button onclick="calculator('subtraction')">Subtraction</button>
     <button onclick="calculator('multiplication')">Multiplication</button>
     <button onclick="calculator('divison')">Divison</button>
 
+
+    <br><br><br>
+    Hover on me to start the Count-down<h1 id="timeValue" onmouseover="countDown()">10</h1>
+
+
     <br>
     <label for="username">Username:</label>
-    <input type="text" id="username" placeholder="Enter the username">
+    <input type="text" id="username" placeholder="Enter the username"> <br> <br>
 
     <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Enter the password">
+    <input type="password" id="password" placeholder="Enter the password"> <br> <br>
 
     <button onclick="loginFun()">Login</button>
 </body>
@@ -95,6 +162,27 @@
         }
     }
 
+    // Array of images
+    const images = [
+        'images/1st-img.jpg',
+        'images/2nd-img.jpg',
+        'images/3rd-img.jpg'
+    ];
+
+    let currentIndex = 0; // Initial image index
+
+    // Function to display the previous image
+    function prevImage() {
+        currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+        document.getElementById('slideImage').src = images[currentIndex];
+    }
+
+    // Function to display the next image
+    function nextImage() {
+        currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+        document.getElementById('slideImage').src = images[currentIndex];
+    }
+
     function squareOfNumber() {
         const inputSquareNumber = document.getElementById('input-number').value
         if (inputSquareNumber === '' || isNaN(inputSquareNumber)) {
@@ -114,7 +202,7 @@
             document.getElementById('input-number').focus()
         } else {
             const squareOfNumber = inputSquareRootNumber * inputSquareRootNumber
-            alert("The square root of" + inputSquareRootNumber + " is:- " + Math.sqrt(inputSquareRootNumber))
+            alert("The square root of " + inputSquareRootNumber + " is:- " + Math.sqrt(inputSquareRootNumber))
             document.getElementById('input-number').value = ''
         }
     }
@@ -135,7 +223,7 @@
             document.getElementById('input-number').focus()
         } else {
             const funCall = fact(factorialNumber)
-            alert("The factorial of the" + factorialNumber + " is:- " + funCall)
+            alert("The factorial of the " + factorialNumber + " is:- " + funCall)
             document.getElementById('input-number').value = ''
         }
     }
@@ -199,6 +287,19 @@
     document.getElementById('stopBtn').addEventListener('click', stopTimer);
     document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
+    function openModal(params) {
+        var modal = document.getElementById("modal");
+        var modalImage = document.getElementById("modal-image");
+
+        modal.style.display = "flex";
+        modalImage.src = params.querySelector("img").src;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "none";
+    }
+
 
     function calculator(params) {
         const firstNumber = parseFloat(document.getElementById('firstNumber').value)
@@ -247,6 +348,26 @@
         }
     }
 
+
+    let timerCountDown
+    function countDown() {
+        if (timerCountDown) {
+            clearInterval(timerCountDown);
+        }
+
+        let timeValue = parseInt(document.getElementById('timeValue').innerHTML)
+
+        timerCountDown = setInterval(() => {
+            if (timeValue === 0) {
+                clearInterval(timerCountDown)
+                alert("Time's up!")
+                document.getElementById('timeValue').innerHTML = 10
+            } else {
+                timeValue--
+                document.getElementById('timeValue').innerHTML = timeValue;
+            }
+        }, 1000)
+    }
 
     function loginFun() {
         const username = document.getElementById('username').value
