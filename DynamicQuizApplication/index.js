@@ -2,35 +2,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const quizData = [
         {
-            question: "Which language runs in a web browser?",
-            a: "Java",
-            b: "C",
-            c: "Python",
-            d: "JavaScript",
-            correct: "d",
-        },
-        {
-            question: "What does CSS stand for?",
-            a: "Central Style Sheets",
-            b: "Cascading Style Sheets",
-            c: "Cascading Simple Sheets",
-            d: "Cars SUVs Sailboats",
-            correct: "b",
-        },
-        {
-            question: "What does HTML stand for?",
-            a: "Hypertext Markup Language",
-            b: "Hypertext Markdown Language",
-            c: "Hyperloop Machine Language",
-            d: "Helicopters Terminals Motorboats Lamborginis",
+            question: "console.log(false == [])",
+            a: "true",
+            b: "false",
+            c: "undefiend",
+            d: "Error",
             correct: "a",
         },
         {
-            question: "What year was JavaScript launched?",
-            a: "1996",
-            b: "1995",
-            c: "1994",
-            d: "none of the above",
+            question: "console.log(4 + '4') console.log(8 + + '8')",
+            a: "8,16",
+            b: "4,8",
+            c: "44,16",
+            d: "44,88",
+            correct: "c",
+        },
+        {
+            question: "console.log(Number(''))",
+            a: "NaN",
+            b: "undefiend",
+            c: "0",
+            d: "false",
+            correct: "c",
+        },
+        {
+            question: "console.log([] == [])",
+            a: "true",
+            b: "false",
+            c: "undefiend",
+            d: "Null",
             correct: "b",
         },
     ];
@@ -100,37 +100,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 })
-// document.addEventListener('DOMContentLoaded', function () {
-
-//     function provideFeedback(event) {
-//         let selectedOption = event.target;
-//         if (selectedOption.type === 'radio') {
-//             let questionDiv = selectedOption.closest('.question');
-//             let correctAnswer = questionDiv.getAttribute('answer');
-//             let feedbackDiv = questionDiv.querySelector('.feedback');
-
-//             if (selectedOption.value === correctAnswer) {
-//                 feedbackDiv.textContent = 'Correct!';
-//                 feedbackDiv.style.color = 'green';
-//             } else {
-//                 feedbackDiv.textContent = 'Wrong!';
-//                 feedbackDiv.style.color = 'red';
-//             }
-//         }
-//     }
-
-//     // Attach event listeners to all radio buttons
-//     document.querySelectorAll('input[type="radio"]').forEach(radio => {
-//         radio.addEventListener('change', provideFeedback);
-//     });
-
-// })
-
-// function nextQuestion(){
-//     let qu1 = document.getElementsByClassName('question')
-//     if(qu1.style.display === 'none'){
-//         qu1.style.display = 'block'
-//     }else{
-//         qu1.style.display = 'none'
-//     }
-// }
