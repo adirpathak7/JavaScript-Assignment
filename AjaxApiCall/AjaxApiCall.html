@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data</title>
+    <style>
+        .data-container {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .suggestion-item {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        #search {
+            margin-right: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>API Data fetching and Searching auto Suggestions</h1>
+    <input type="search" name="searchProduct" id="search" placeholder="Search by name..." onkeyup="filterData()">
+    <div id="searchResult"></div>
+    <div id="apiData"></div>
+
+    <script>
+        let apiData = [];
+
+        function fetchApiData() {
+            var xhr = new XMLHttpRequest();
+            var url = 'http://127.0.0.1:5500/ApiData.json';
+            console.log(url);
+
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    apiData = xhr.response;
+                    displayData(apiData);
+                } else {
+                    document.getElementById('apiData').innerHTML = '<p>Error fetching data.</p>';
+                }
+            };
+            xhr.send();
+        }
+
+        function displayData(data) {
+            var output = '';
+            data.forEach(function (item) {
+                output += `
+                    <div class="data-container">
+                        <p><strong>ID:</strong> ${item.id}</p>
+                        <p><strong>Name:</strong> ${item.name}</p>
+                        <p><strong>Data:</strong> ${item.course}</p>
+                        <p><strong>Role Number:</strong> ${item.roll_number}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('apiData').innerHTML = output;
+        }
+
+        function filterData() {
+            var searchQuery = document.getElementById('search').value.toLowerCase();
+            var filteredData = apiData.filter(function (item) {
+                return item.name.toLowerCase().includes(searchQuery);
+            });
+
+            displaySuggestions(filteredData);
+        }
+
+        function displaySuggestions(data) {
+            var output = '';
+
+            data.forEach(function (item) {
+                output += `
+                    <div class="suggestion-item" onclick="selectSuggestion('${item.name}')">
+                        ${item.name}
+                    </div>
+                `;
+            });
+
+            document.getElementById('searchResult').innerHTML = output;
+        }
+
+        function selectSuggestion(name) {
+            document.getElementById('search').value = name;
+            document.getElementById('searchResult').innerHTML = '';
+            filterData();
+        }
+
+        fetchApiData();
+    </script>
+</body>
+
+</html>

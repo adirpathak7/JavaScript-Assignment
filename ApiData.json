@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "name": "Adii",
+        "course": "MSc(ICT)",
+        "roll_number": 55
+    },
+    {
+        "id": 2,
+        "name": "Akash",
+        "course": "MSc(ICT)",
+        "roll_number": 31
+    },
+    {
+        "id": 3,
+        "name": "Somnath",
+        "course": "MSc(ICT)",
+        "roll_number": 76
+    },
+    {
+        "id": 4,
+        "name": "Avnish",
+        "course": "MSc(ICT)",
+        "roll_number": 75
+    },
+    {
+        "id": 5,
+        "name": "Pavan",
+        "course": "MSc(ICT)",
+        "roll_number": 28
+    },
+    {
+        "id": 6,
+        "name": "Om",
+        "course": "MSc(ICT)",
+        "roll_number": 18
+    },
+    {
+        "id": 7,
+        "name": "Prince",
+        "course": "MSc(ICT)",
+        "roll_number": 54
+    }
+]

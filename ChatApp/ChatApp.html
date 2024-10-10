@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        #chatApp {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 5px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #chatContainer {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #chatMsg {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .message {
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .sender {
+            background-color: #d4f1f4;
+            align-self: flex-end;
+        }
+
+        .reciver {
+            background-color: #f4d4d4;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Chat Application</h1>
+        <form id="chatApp">
+            <div class="input-container">
+                <input type="text" id="senderMsg" placeholder="Write message for receiver...">
+                <button type="button" id="sendBtn">Send</button>
+            </div>
+            <div class="input-container">
+                <input type="text" id="reciverMsg" placeholder="Write message for sender...">
+                <button type="button" id="reciveBtn">Send</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="chatContainer">
+        <div id="chatMsg"></div>
+    </div>
+
+    <script>
+        document.getElementById('sendBtn').addEventListener('click', function () {
+            const senderMsg = document.getElementById('senderMsg').value;
+            if (senderMsg) {
+                const senderDiv = document.createElement('div');
+                senderDiv.classList.add('message', 'sender');
+                senderDiv.textContent = senderMsg;
+                senderDiv.contentEditable = true
+                document.getElementById('chatMsg').appendChild(senderDiv);
+                document.getElementById('senderMsg').value = '';
+                document.getElementById('chatMsg').scrollTop = document.getElementById('chatMsg').scrollHeight;
+            } else {
+                alert('Please write a message for the receiver!');
+                document.getElementById('senderMsg').focus()
+            }
+        });
+
+        document.getElementById('reciveBtn').addEventListener('click', function () {
+            const reciverMsg = document.getElementById('reciverMsg').value;
+            if (reciverMsg) {
+                const reciverDiv = document.createElement('div');
+                reciverDiv.classList.add('message', 'reciver');
+                reciverDiv.textContent = reciverMsg;
+                reciverDiv.contentEditable = true
+                document.getElementById('chatMsg').appendChild(reciverDiv);
+                document.getElementById('reciverMsg').value = '';
+                document.getElementById('chatMsg').scrollTop = document.getElementById('chatMsg').scrollHeight;
+            } else {
+                alert('Please write a message for the sender!');
+                document.getElementById('reciverMsg').focus()
+            }
+        });
+    </script>
+</body>
+
+</html>

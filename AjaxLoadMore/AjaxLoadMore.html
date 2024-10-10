@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load More</title>
+    <style>
+        #content {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #content li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #loadMore {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Load More functionality using AJAX</h1>
+    <ul id="content"></ul>
+    <button id="loadMore">Load More</button>
+
+    <script>
+        let currentPage = 1;
+        const limit = 3;
+
+        document.getElementById('loadMore').addEventListener('click', loadMoreContent);
+
+        function loadMoreContent() {
+
+            const xhr = new XMLHttpRequest();
+            const url = `http://127.0.0.1:5500/ApiData.json`
+
+            xhr.open('GET', url, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const jsonData = JSON.parse(xhr.responseText);
+
+                    const startIndex = (currentPage - 1) * limit;
+                    const endIndex = startIndex + limit;
+
+                    const data = jsonData.slice(startIndex, endIndex);
+
+                    if (data.length > 0) {
+                        appendContent(data);
+                        currentPage++;
+                    } else {
+                        document.getElementById('loadMore').textContent = 'No more items';
+                        document.getElementById('loadMore').disabled = true;
+                    }
+                } else {
+                    console.error('Failed to fetch data:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Request error...');
+            };
+
+            xhr.send();
+        }
+
+        function appendContent(items) {
+            const contentList = document.getElementById('content');
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item.name;
+                contentList.appendChild(listItem);
+            });
+        }
+
+        loadMoreContent();
+    </script>
+</body>
+
+</html>

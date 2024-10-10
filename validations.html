@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+
+        #success {
+            color: rgb(88, 229, 88);
+        }
+    </style>
+</head>
+
+<body>
+    <form onsubmit="return validUserRegister(event)">
+        <h1>User Register</h1>
+
+        <label for="name">Name </label>
+        <input type="text" id="name" name="name" placeholder="User Name">
+        <span id="error-name" class="error-message"></span> <br> <br>
+
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="text" placeholder="email@example.com">
+        <span id="error-email" class="error-message"></span> <br> <br>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Password">
+        <span id="error-password" class="error-message"></span> <br> <br>
+
+        <button type="submit">Register</button> <br>
+        <span id="success"></span>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("name").addEventListener("input", function () { clearError("name"); });
+            document.getElementById("email").addEventListener("input", function () { clearError("email"); });
+            document.getElementById("password").addEventListener("input", function () { clearError("password"); });
+        });
+
+        function clearError(field) {
+            document.getElementById("error-" + field).innerHTML = "";
+        }
+
+        function validUserRegister(event) {
+            event.preventDefault();
+
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var mail = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+            var strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            clearError("name");
+            clearError("email");
+            clearError("password");
+
+            if (!name) {
+                document.getElementById("error-name").innerHTML = "Please enter the User Name!";
+                document.getElementById("name").focus();
+                return false;
+            }
+
+            if (!email) {
+                document.getElementById("error-email").innerHTML = "Please enter the Email ID!";
+                document.getElementById("email").focus();
+                return false;
+            }
+
+            if (!email.match(mail)) {
+                document.getElementById("error-email").innerHTML = "Invalid Email ID!";
+                document.getElementById("email").focus();
+                return false;
+            }
+
+            if (!password) {
+                document.getElementById("error-password").innerHTML = "Please enter the Password!";
+                document.getElementById("password").focus();
+                return false;
+            }
+
+            if (!strongPassword.test(password)) {
+                document.getElementById("error-password").innerHTML = "Weak Password! Please include:<br>At least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.";
+                document.getElementById("password").focus();
+                return false;
+            }
+
+            document.getElementById("success").innerHTML = "Registration Successful!"
+            return true
+        }
+    </script>
+</body>
+
+</html>

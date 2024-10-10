@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App with AJAX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #weatherData {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: left;
+            color: white;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        .error {
+            color: red;
+        }
+
+        #refresh {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Weather App</h1>
+    <div>
+        <input type="text" id="city" placeholder="Enter city name" />
+        <button onclick="getWeather()">Search</button>
+    </div>
+    <div id="weatherData"></div>
+
+    <script>
+        function getWeather() {
+            const city = document.getElementById('city').value.trim();
+
+            if (!city) {
+                alert('Please enter a city!');
+                document.getElementById('city').focus();
+                return;
+            }
+
+            const apiKey = 'fac356c4f27840a5bd7191025241010';
+            const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.location && data.current) {
+                            displayWeather(data);
+                        } else {
+                            displayError('Invalid data received. Please try another city.');
+                        }
+                    } catch (error) {
+                        displayError('Error parsing response. Please try again.');
+                    }
+                } else if (xhr.status === 400) {
+                    displayError('City not found. Please try again.');
+                } else {
+                    displayError('Error fetching weather data. Please try again later.');
+                }
+            };
+
+            xhr.onerror = function () {
+                displayError('Request failed. Please check your network and try again.');
+            };
+
+            xhr.send();
+        }
+
+        function displayWeather(data) {
+            const weatherData = document.getElementById('weatherData');
+            const { location, current } = data;
+            const description = current.condition.text;
+            const icon = current.condition.icon;
+            const temperature = current.temp_c;
+
+            weatherData.innerHTML = `
+                <h2>${location.name}, ${location.country}</h2>
+                <p>Temperature: ${temperature} °C</p>
+                <p>Description: ${description}</p>
+                <img src="${icon}" alt="${description}" />
+                <button id="refresh" onclick="getWeather()">Refresh</button>
+            `;
+            weatherData.classList.remove('error');
+            weatherData.style.backgroundColor = 'gray';
+        }
+
+        function displayError(message) {
+            const weatherData = document.getElementById('weatherData');
+            weatherData.innerHTML = `<p class="error">${message}</p>`;
+        }
+    </script>
+</body>
+
+</html>
