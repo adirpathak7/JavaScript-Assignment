@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error-message {
+            color: red;
+        }
+
+        #success {
+            color: rgb(88, 229, 88);
+        }
+    </style>
+</head>
+
+<body>
+    <form id="registrationForm">
+        <h1>User Register</h1>
+
+        <label for="name">Name </label>
+        <input type="text" id="name" name="name" placeholder="User Name">
+        <span id="error-name" class="error-message"></span> <br> <br>
+
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="text" placeholder="email@example.com">
+        <span id="error-email" class="error-message"></span> <br> <br>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Password"> <br>
+        <span id="error-password" class="error-message"></span> <br> <br>
+
+        <button type="submit">Register</button> <br>
+        <span id="success"></span>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#name').on('input', function () { clearError('name'); });
+            $('#email').on('input', function () { clearError('email'); });
+            $('#password').on('input', function () { clearError('password'); });
+
+            $('#registrationForm').on('submit', function (event) {
+                event.preventDefault();
+                validUserRegister();
+            });
+        });
+
+        function clearError(field) {
+            $('#error-' + field).html('');
+        }
+
+        function validUserRegister() {
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var mail = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+            var strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            clearError('name');
+            clearError('email');
+            clearError('password');
+
+            if (!name) {
+                $('#error-name').html('Please enter the User Name!');
+                $('#name').focus();
+                return false;
+            }
+
+            if (!email) {
+                $('#error-email').html('Please enter the Email ID!');
+                $('#email').focus();
+                return false;
+            }
+
+            if (!email.match(mail)) {
+                $('#error-email').html('Invalid Email ID!');
+                $('#email').focus();
+                return false;
+            }
+
+            if (!password) {
+                $('#error-password').html('Please enter the Password!');
+                $('#password').focus();
+                return false;
+            }
+
+            if (!strongPassword.test(password)) {
+                $('#error-password').html('Weak Password! Please include:<br>At least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.');
+                $('#password').focus();
+                return false;
+            }
+
+            $('#name').val('');
+            $('#email').val('');
+            $('#password').val('');
+            alert(`Form submitted successfully!\nName:- ${name}\nEmail:- ${email}`)
+            // $('#success').html('Form submitted successfully!');
+            return true;
+        }
+    </script>
+</body>
+
+</html>

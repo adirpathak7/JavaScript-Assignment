@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State & City</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <form onsubmit="return validateForm()">
+        <h1>State and City</h1>
+
+        <label for="state">State:</label>
+        <select id="state" name="state" onchange="updateCities(); clearError('state');">
+            <option value="">Select a State</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Odisha">Odisha</option>
+        </select>
+        <span id="error-state" class="error-message"></span> <br><br>
+
+        <label for="city">City:</label>
+        <select id="city" name="city" onchange="clearError('city')">
+            <option value="">Select a City</option>
+        </select>
+        <span id="error-city" class="error-message"></span> <br><br>
+
+        <button type="submit">Submit</button>
+        <span id="success"></span>
+    </form>
+
+    <script>
+        const stateCities = {
+            Gujarat: ["Surat", "Vapi", "Anand"],
+            Maharashtra: ["Mumbai", "Pune", "Nashik"],
+            Odisha: ["Bhuvneshvar", "Ganjam"]
+        };
+
+        function updateCities() {
+            const state = document.getElementById("state").value;
+            const citySelect = document.getElementById("city");
+
+            citySelect.innerHTML = '<option value="">Select a City</option>';
+            if (state) {
+                stateCities[state].forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city.toLowerCase().replace(/\s+/g, '-');
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        }
+
+        function clearError(field) {
+            document.getElementById("error-" + field).innerHTML = "";
+        }
+
+        function validateForm() {
+            const state = document.getElementById("state").value;
+            const city = document.getElementById("city").value;
+
+            if (!state) {
+                document.getElementById("error-state").innerHTML = "Please select a state!";
+                document.getElementById("state").focus();
+                return false;
+            }
+
+            if (!city) {
+                document.getElementById("error-city").innerHTML = "Please select a city!";
+                document.getElementById("city").focus();
+                return false;
+            }
+
+            alert(`Form submitted successfully!\nState:- ${state}\nCity:- ${city}`)
+            // document.getElementById("success").innerHTML = "Form submitted successfully!";
+            return true;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Image Navigation</title>
+    <style>
+        .imageslider {
+            width: 500px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            margin: 20px auto;
+            border: 2px solid #ccc;
+        }
+
+        .sliderbtn {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="imageslider" id="slider"></div>
+        <div class="sliderbtn">
+            <button class="prevbtn" id="prevbtn">Prev</button>
+            <button class="nextbtn" id="nextbtn">Next</button>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+            const images = ["/images/1st-img.jpg", "/images/2nd-img.jpg", "/images/3rd-img.jpg"];
+            let index = 0;
+
+            function updateImage() {
+                $('#slider').css('background-image', `url('${images[index]}')`);
+            }
+
+            $('#prevbtn').click(function () {
+                index = (index - 1 + images.length) % images.length;
+                updateImage();
+            });
+
+            $('#nextbtn').click(function () {
+                index = (index + 1) % images.length;
+                updateImage();
+            });
+
+            updateImage();
+        });
+    </script>
+</body>
+
+</html>
